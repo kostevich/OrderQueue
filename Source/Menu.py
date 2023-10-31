@@ -43,6 +43,16 @@ for item in AllImages:
     allUrlImages = item["src"]
     # Обновление данных в словаре.
     InfoPizzas[ID].update({'Images': allUrlImages})
-        
+
+
+IDList = list()
+
+
+for k in range (1, 33):
+    IDList.append(k)
+    print(IDList)
+    # print(InfoPizzas[k]['Name'])
+   
+
 # Запись словаря в JSON.
 WriteJSON('InfoPizzas.json', InfoPizzas)
