@@ -50,7 +50,6 @@ IDList = list()
 
 for k in range (1, 33):
     IDList.append(k)
-    print(IDList)
     # print(InfoPizzas[k]['Name'])
    
 

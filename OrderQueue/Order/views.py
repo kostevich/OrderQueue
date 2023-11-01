@@ -1,7 +1,5 @@
 from django.shortcuts import render
-import sys
-sys.path.insert(0, "C:\Data storage\Programming\Internship\OrderQueue\Source")
-from Menu import InfoPizzas, IDList
+from Source.Menu import InfoPizzas, IDList
 
 # Create your views here.
 
