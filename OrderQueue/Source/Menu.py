@@ -4,7 +4,9 @@ from dublib.Methods import WriteJSON
 import requests 
 
 # Словарь со всей информацией по пиццам.
-InfoPizzas = dict() 
+InfoPizzas = {
+    "Pizzas": []
+}
 # Начальное id пиццы.
 ID = 0
 
@@ -25,33 +27,20 @@ for item in AllPizzas:
     # Смена ID.
     ID +=1
     # Вывод текстовых данных о пицце.
-    allNames =  item.find('div', {'class': 'product-card__title'}).text
+    allNames =  item.find('div', {'class': 'product-card__title'}).text.replace("new", "").replace("хит", "")
     allIngridients =  item.find('div', {'class': 'product-card__description'}).text
     allSizePizzas =  item.find('p', {'class': 'product-card__modification-info-weight'}).text
     allPricePizzas =  item.find('p', {'class': 'product-card__modification-info-price'}).text
     # Запись данных в словарь.
-    InfoPizzas[ID] = {'Name': allNames, 'Ingridients': allIngridients, 'Size': allSizePizzas, 'Price': allPricePizzas}
-
-# Смена ID.
-ID = 0
+    InfoPizzas["Pizzas"].append({'Id': ID, 'Name': allNames, 'Ingridients': allIngridients, 'Size': allSizePizzas, 'Price': allPricePizzas})
 
 
-for item in AllImages:
-    # Смена ID.
-    ID +=1
+for i in range(len(AllImages)):
     # Вывод изображений пиццы.
-    allUrlImages = item["src"]
+    allUrlImages = AllImages[i]["src"]
     # Обновление данных в словаре.
-    InfoPizzas[ID].update({'Images': allUrlImages})
+    InfoPizzas["Pizzas"][i]['Images'] = allUrlImages
 
-
-IDList = list()
-
-
-for k in range (1, 33):
-    IDList.append(k)
-    # print(InfoPizzas[k]['Name'])
-   
 
 # Запись словаря в JSON.
 WriteJSON('InfoPizzas.json', InfoPizzas)

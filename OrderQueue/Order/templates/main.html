@@ -11,27 +11,22 @@ PizzaForAll
   </div>
   </div>
 </div>
-  <div class="container marketing">
-    <hr class="featurette-divider">
-    <div class="row featurette">
-      <div class="col-md-7">
-        <h2 class="featurette-heading fw-normal lh-1">fg<span class="text-body-secondary"></span></h2>
-        <p class="lead">ghjghhj</p>
-      </div>
-      <div class="col-md-5">
-        <img src="/static/Fotohtml/1584630601_bljuda-28.jpg" height="150" alt="Card image cap">
-      </div>
+{% for item in InfoPizzas %}
+<div class="container marketing">
+  <hr class="featurette-divider">
+  <div class="row featurette">
+    <div class="col-md-7">
+      <h2 class="featurette-heading fw-normal lh-1">{{ item.Name }}<span class="text-body-secondary"></span></h2>
+      <p class="lead"><b>Состав: </b>{{ item.Ingridients }}</p>
+      <p class="lead"><b>Стоимость: </b>{{ item.Price }}</p>
+      <p class="lead"><b>Вес: </b>{{ item.Size }}</p>
+    </div>
+    <div class="col-md-5">
+      <img src={{ item.Images }} height="150" alt="Card image cap">
     </div>
   </div>
-    <hr class="featurette-divider">
-    <div class="row featurette">
-      <div class="col-md-7 order-md-2">
-        <h2 class="featurette-heading fw-normal lh-1">Ну а как же без необычного осминожка.<span class="text-body-secondary">Может и его??? МММ</span></h2>
-        <p class="lead">Доступна дата последнего изменения хотелки.</p>
-      </div>
-      <div class="col-md-5 order-md-1">
-        <img src="/static/Fotohtml/fa7d49013b231dc6ed1f6b018e1db9b3.jpg" height="150" alt="Card image cap">
-    </div>
 </div>
 
+
+{% endfor %}
 {% endblock %}

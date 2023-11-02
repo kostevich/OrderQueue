@@ -1,10 +1,10 @@
 from django.shortcuts import render
-from Source.Menu import InfoPizzas, IDList
+from Source.Menu import InfoPizzas
 
 # Create your views here.
 
 def MainPage(request):
-    context = {'InfoPizzas': InfoPizzas , 'IDList': IDList}
+    context = {'InfoPizzas': InfoPizzas["Pizzas"]}
     return render(request, "main.html", context)
 
 def AboutPage(request):
