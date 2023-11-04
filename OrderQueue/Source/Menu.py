@@ -32,7 +32,7 @@ for item in AllPizzas:
     allSizePizzas =  item.find('p', {'class': 'product-card__modification-info-weight'}).text
     allPricePizzas =  item.find('p', {'class': 'product-card__modification-info-price'}).text
     # Запись данных в словарь.
-    InfoPizzas["Pizzas"].append({'Id': ID, 'Name': allNames, 'Ingridients': allIngridients, 'Size': allSizePizzas, 'Price': allPricePizzas})
+    InfoPizzas["Pizzas"].append({'Id': str(ID), 'Name': allNames, 'Ingridients': allIngridients, 'Size': allSizePizzas, 'Price': allPricePizzas})
 
 
 for i in range(len(AllImages)):

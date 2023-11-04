@@ -20,13 +20,16 @@ PizzaForAll
       <p class="lead"><b>Состав: </b>{{ item.Ingridients }}</p>
       <p class="lead"><b>Стоимость: </b>{{ item.Price }}</p>
       <p class="lead"><b>Вес: </b>{{ item.Size }}</p>
-    <form action="preorder" method="post">
+    <form method="post">
       {% csrf_token %}
-      <input type="number" name="countpizzas" value="1">
+      Количество пицц для заказа: <input type="number" name="countpizzas" min=0 value="0">
       <input type="hidden" name="idorder" value="{{ item.Id }}">
       <input type="hidden" name="nameorder" value="{{ item.Name }}">
       <input type="hidden" name="priceorder" value="{{ item.Price }}">
-      <input type="submit" value="В корзину">
+      <input type="submit" name="click" id ="click" value="В корзину">
+      {% if AddOrder.id == item.Id %}
+      <p class="lead"><b></b>{{ AddOrder.text }}</p>
+      {% endif %}
     </form>
     </div>
     <div class="col-md-5">
@@ -34,7 +37,6 @@ PizzaForAll
     </div>
   </div>
 </div>
-
 
 {% endfor %}
 {% endblock %}
