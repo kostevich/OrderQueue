@@ -1,18 +1,36 @@
 from django.shortcuts import render
-from dublib.Methods import ReadJSON, WriteJSON
-from Source.Menu import InfoPizzas
+from Source.Functions import *
+from Source.Menu import *
+import os
 
-# Создание словаря товаров, находящегося в корзине.
-InfoOrders = {
-    'Orders': []
-}
+path = 'C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json'
 
 
 def MainPage(request):
+    if os.path.exists(path + '/InfoOrders.json'):
+        InfoOrders = InfoOrdersRead()
+    else:
+        InfoOrders = {'Orders': []} 
+        InfoOrdersWrite(InfoOrders)
+
+
+    if os.path.exists(path + '/AllPrice.json'):
+        AllPrice = AllPriceRead()
+    else: 
+        AllPrice = {'AllPrice': '0 руб.' }
+        AllPriceWrite(AllPrice)
+
+
+    if os.path.exists(path + '/InfoPizzas.json'):  
+        InfoPizzas = InfoPizzasRead()
+    else:
+        InfoPizzas = ReceiveMenu()
+        InfoPizzasWrite(InfoPizzas)
+        
+
     # Словарь добавления в корзину.
     AddOrder = {'id': "0", 'text': ''}
-    AllPrice = {'AllPrice': '0 руб.' }
-
+    
     # Если нажата кнопка в корзину и количество выбранных пицц больше 0.
     if request.method =='POST' and int(request.POST["countpizzas"])>0:
 
@@ -67,9 +85,9 @@ def MainPage(request):
     # Отображение контента на странице.
     context = {'InfoPizzas': InfoPizzas["Pizzas"], 'AddOrder': AddOrder}
     
-    # Создание json файликов с данными.
-    WriteJSON('InfoOrders.json', InfoOrders)
-    WriteJSON('AllPrice.json', AllPrice)
+
+    InfoOrdersWrite(InfoOrders)
+    AllPriceWrite(AllPrice)
 
     # Вывод данных на главной странице.
     return render(request, "main.html", context)
@@ -80,12 +98,26 @@ def AboutPage(request):
 
 
 def PreOrderPage(request):
-    # Создание словарей из json файликов с данными.
-    InfoOrdersDict = ReadJSON('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\InfoOrders.json')
-    AllPriceDict = ReadJSON('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\AllPrice.json')
+    AllPrice = AllPriceRead()
+    InfoOrders = InfoOrdersRead()
+    
+    if request.method =='POST':
+        for i in range(len(InfoOrders["Orders"])):
+            if InfoOrders["Orders"][i]["idorder"] == request.POST["idorder"] and InfoOrders["Orders"][i]["countpizzas"] == request.POST["countpizzas"]:
+                AllPrice['AllPrice'] = str(round(float(str(AllPrice['AllPrice'].split(' ')[0])) - float(str(InfoOrders['Orders'][i]['pricepizza'].split(' ')[0])), 2)) + ' руб.'
+                del InfoOrders["Orders"][i]
+                break
+            else:
+                AllPrice['AllPrice'] = str(round(float(str(AllPrice['AllPrice'].split(' ')[0])) - (float(str(InfoOrders['Orders'][i]['priceorder'].split(' ')[0]))*float(str(request.POST["countpizzas"].split(' ')[0]))), 2)) + ' руб.'
+                InfoOrders["Orders"][i]['pricepizza'] = str(round(float(str(AllPrice['AllPrice'].split(' ')[0])) - (float(str(InfoOrders['Orders'][i]['priceorder'].split(' ')[0]))*float(str(request.POST["countpizzas"].split(' ')[0]))), 2)) + ' руб.'
+                InfoOrders["Orders"][i]['countpizzas'] = int(InfoOrders["Orders"][i]['countpizzas']) - int(request.POST["countpizzas"])
+                break
+
+    InfoOrdersWrite(InfoOrders)     
+    AllPriceWrite(AllPrice)
 
     # Отображение контента на странице.
-    context = {'InfoOrdersDict': InfoOrdersDict["Orders"],'AllPriceDict': AllPriceDict}
+    context = {'InfoOrders': InfoOrders["Orders"],'AllPrice': AllPrice}
 
     # Вывод данных на главной странице.
     return render(request, "preorder.html", context)

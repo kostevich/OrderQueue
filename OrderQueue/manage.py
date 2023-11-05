@@ -8,6 +8,12 @@ def main():
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'OrderQueue.settings')
     try:
+        os.remove('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoPizzas.json')
+        os.remove('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\AllPrice.json')
+        os.remove('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoOrders.json')
+    except:
+        pass
+    try:
         from django.core.management import execute_from_command_line
     except ImportError as exc:
         raise ImportError(

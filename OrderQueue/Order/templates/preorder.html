@@ -10,7 +10,7 @@
     </div>
 </div>
 </div>
-{% for item in InfoOrdersDict %}
+{% for item in InfoOrders %}
 <div class="container marketing">
     <hr class="featurette-divider">
     <div class="row featurette">
@@ -18,15 +18,21 @@
         <h2 class="featurette-heading fw-normal lh-1">Пицца: {{ item.nameorder }}<span class="text-body-secondary"></span></h2>
         <p class="lead"><b>Стоимость пиццы: </b>{{ item.pricepizza }}</p>
         <p class="lead"><b>Количество пицц: </b>{{ item.countpizzas }}</p>
+        <form method="post">
+            {% csrf_token %}
+            Количество пицц для заказа: <input type="number" name="countpizzas" min=0 value="{{ item.countpizzas }}">
+            <input type="hidden" name="idorder" value="{{ item.idorder }}">
+            <input type="submit" name="click" id ="click" value="Удалить из корзины">
+          </form>
       </div>
     </div>
 </div>  
 {% endfor %} 
-{% for item in AllPriceDict %}
+{% for item in AllPrice %}
 <div class="container">
     <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
         <div class="col-lg-6 px-0">
-            <h1 class="display-4 fst-italic">Купить всё: {{ AllPriceDict.AllPrice }}</h1>
+            <h1 class="display-4 fst-italic">Купить всё: {{ AllPrice.AllPrice }}</h1>
         </div>
     </div>
 </div> 
