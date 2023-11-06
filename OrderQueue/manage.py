@@ -9,7 +9,6 @@ def main():
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'OrderQueue.settings')
     try:
         os.remove('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoPizzas.json')
-        os.remove('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\AllPrice.json')
         os.remove('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoOrders.json')
     except:
         pass

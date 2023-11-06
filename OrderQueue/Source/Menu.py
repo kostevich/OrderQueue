@@ -1,5 +1,6 @@
 from bs4 import BeautifulSoup
 from .Functions import *
+
 import requests 
 
 def ReceiveMenu():
@@ -29,10 +30,10 @@ def ReceiveMenu():
         # Вывод текстовых данных о пицце.
         allNames =  item.find('div', {'class': 'product-card__title'}).text.replace("new", "").replace("хит", "")
         allIngridients =  item.find('div', {'class': 'product-card__description'}).text
-        allSizePizzas =  item.find('p', {'class': 'product-card__modification-info-weight'}).text
-        allPricePizzas =  item.find('p', {'class': 'product-card__modification-info-price'}).text
+        allSizePizzas =  item.find('p', {'class': 'product-card__modification-info-weight'}).text.replace(" гр", "")
+        allPricePizzas =  item.find('p', {'class': 'product-card__modification-info-price'}).text.replace(" руб.", "")
         # Запись данных в словарь.
-        InfoPizzas["Pizzas"].append({'Id': str(ID), 'Name': allNames, 'Ingridients': allIngridients, 'Size': allSizePizzas, 'Price': allPricePizzas})
+        InfoPizzas["Pizzas"].append({'Id': ID, 'Name': allNames, 'Ingridients': allIngridients, 'Size': int(allSizePizzas), 'Price': float(allPricePizzas)})
 
 
     for i in range(len(AllImages)):
