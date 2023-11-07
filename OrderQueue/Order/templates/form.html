@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block title %}
+Оформление заказа
+{% endblock %}
+{% block body %}
+<div class="container">
+    <form method="post">
+        {% csrf_token %}
+        <h2>Оформление заказа</h2>
+        <fieldset>
+          <ul>
+            <li>
+              <label for="Name">Имя:*</label>
+              <input type="text" name="Name" placeholder="Иван Иванов" id="Name" required>
+            </li>
+          </ul>
+        </fieldset>
+        <fieldset>
+          <ul>
+            <li>
+              <label for="Adress">Адрес:*</label>
+              <input type="text" name="Adress" placeholder="г.Гродно, пр-т Я.Купалы, 80-73" id="Adress" required>
+            </li>
+            <li>
+              <label for="PhoneNumber">Телефон:*</label>
+              <input type="tel" name="PhoneNumber" placeholder="+375290000000" id="PhoneNumber" maxlength="13" required>
+            </li>
+          </ul>
+        </fieldset>
+        <div>
+            <input type="submit" name="button" value="Оформить">
+        </div>
+      </form>
+</div>
+{% endblock %}

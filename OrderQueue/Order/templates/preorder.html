@@ -22,7 +22,7 @@
             {% csrf_token %}
             Количество пицц, которых нужно удалить из корзины: <input type="number" style="width: 50px;" name="Count" min=0 max="{{ item.Count }}" value="{{ item.Count }}">
             <input type="hidden" name="Id" value="{{ item.Id }}">
-            <input type="submit" name="click" id ="click" value="Удалить из корзины">
+            <input type="submit" name="button" value="Удалить из корзины">
           </form>
       </div>
     </div>
@@ -31,7 +31,10 @@
 <div class="container">
     <div class="p-4 p-md-5 mb-4 rounded text-body-emphasis bg-body-secondary">
         <div class="col-lg-6 px-0">
-            <h1 class="display-4 fst-italic">Купить всё: {{ TotalPrice.TotalPrice }} руб.</h1>
+            <p class="lead"><b>Общая стоимость: </b>{{ TotalPrice.TotalPrice }} руб.</p>
+            <form action="form" method="post">
+                {% csrf_token %}
+            <input type="submit" name="button" value="Оформить заказ">
         </div>
     </div>
 </div>  

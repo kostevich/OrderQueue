@@ -8,11 +8,6 @@ def InfoPizzasWrite(InfoPizzas):
 def InfoOrdersWrite(InfoOrders):
     WriteJSON('json/InfoOrders.json', InfoOrders)
 
-
-# Запись словаря корзины всей цены в JSON.
-def AllPriceWrite(AllPrice):
-    WriteJSON('json/AllPrice.json', AllPrice)
-
 # Чтение словаря меню в JSON.
 def InfoPizzasRead():
     InfoPizzas = ReadJSON('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoPizzas.json')
@@ -23,10 +18,7 @@ def InfoOrdersRead():
     InfoOrders = ReadJSON('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoOrders.json')
     return InfoOrders
 
-# Чтение словаря корзины всей цены в JSON.
-def AllPriceRead():
-    AllPrice = ReadJSON('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\AllPrice.json')
-    return AllPrice
+
 
 
     
