@@ -1,10 +1,12 @@
 {
 	"Id": 0,
-	"User": {
-		"Name": "",
-		"Adress": "",
-		"PhoneNumber": 0
-	},
+	"User": [
+		{
+			"Name": "",
+			"Adress": "",
+			"PhoneNumber": 0
+		}
+	],
 	"TotalPrice": "",
 	"Datetime": "",
 	"Pizzas": []

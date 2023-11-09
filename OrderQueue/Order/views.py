@@ -6,18 +6,18 @@ from Source.Order import *
 import os
 
 path = "C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json"
-
+NumberOrder = 0
 
 def MainPage(request):
     if os.path.exists(path + "/InfoOrders.json"):
         InfoOrders = InfoOrdersRead()
     else:
         InfoOrders = {"Id": 0,
-                      "User": { 
+                      "User": [{ 
                           "Name": "", 
                           "Adress": "",
                           "PhoneNumber": 0
-                          },
+                          }],
                     "TotalPrice": "",
                     "Datetime": "",
                     "Pizzas": []}
@@ -125,14 +125,20 @@ def PreOrderPage(request):
 
 
 def FormPage(request):
+    SendForm(request)
+    return render(request, "form.html")
+
+
+def SendForm(request):
     InfoOrders = InfoOrdersRead()
     if request.method =="POST":
-        if str(request.POST["button"]) == "Оформить заказ":
-            pass
-        
+        if str(request.POST["button"]) == "Оформить":
+            InfoOrders["User"].append({"Name": request.POST["Name"]}) 
+             
+    
     InfoOrdersWrite(InfoOrders)     
 
     # Отображение контента на странице.
-    context = {"Pizzas": InfoOrders["Pizzas"], "TotalPrice": InfoOrders }
+    context = {"Pizzas": InfoOrders["Pizzas"], "TotalPrice": InfoOrders}
 
     return render(request, "form.html", context)
