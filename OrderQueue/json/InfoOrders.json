@@ -1,13 +1,13 @@
 {
-	"Id": 0,
-	"User": [
+	"LastId": 0,
+	"Queue": [],
+	"Orders": [
 		{
-			"Name": "",
-			"Adress": "",
-			"PhoneNumber": 0
+			"Id": 0,
+			"User": [],
+			"TotalPrice": "",
+			"Datetime": "",
+			"Pizzas": []
 		}
-	],
-	"TotalPrice": "",
-	"Datetime": "",
-	"Pizzas": []
+	]
 }
