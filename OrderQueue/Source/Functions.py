@@ -10,12 +10,12 @@ def InfoOrdersWrite(InfoOrders):
 
 # Чтение словаря меню в JSON.
 def InfoPizzasRead():
-    InfoPizzas = ReadJSON('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoPizzas.json')
+    InfoPizzas = ReadJSON('json\InfoPizzas.json')
     return InfoPizzas
 
 # Чтение словаря корзины в JSON.
 def InfoOrdersRead():
-    InfoOrders = ReadJSON('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoOrders.json')
+    InfoOrders = ReadJSON('json\InfoOrders.json')
     return InfoOrders
 
 

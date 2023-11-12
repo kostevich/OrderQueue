@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from .Functions import *
 
 import requests 
 

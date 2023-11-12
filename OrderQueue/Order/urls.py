@@ -6,4 +6,5 @@ urlpatterns = [
     path('about', views.AboutPage, name='AboutPage'),
     path('preorder', views.PreOrderPage, name='PreOrderPage'),
     path('form', views.FormPage, name='FormPage'),
+    path('orders', views.SendForm, name='SendForm'),
 ]
