@@ -1,0 +1,9 @@
+# Program files
+settings.py
+__pycache__
+
+
+# Confidential files
+InfoPizzas.json
+db.sqlite3
+migrations

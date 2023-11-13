@@ -109,8 +109,8 @@ def MainPage(request):
 		
 	# Сохраняем данные в виде файла InfoOrders.json.
 	InfoOrdersWrite(InfoOrders)
-	# Сохраняем данные в виде файла InfoPizzas.json.
-	RakingOrders(InfoPizzas)
+	
+	RakingOrders(InfoOrders)
 	# Вывод данных на главной странице.
 	return render(request, "main.html", context)
 
@@ -122,7 +122,6 @@ def AboutPage(request):
 def PreOrderPage(request):
 	# Перевод данных файла в словарь.
 	InfoOrders = InfoOrdersRead()
-	print(1, InfoOrders)
 	# Если пришёл POST - запрос.
 	if request.method =="POST":
 		# Нажата кнопка: Удалить из корзины.
