@@ -110,7 +110,6 @@ def MainPage(request):
 	# Сохраняем данные в виде файла InfoOrders.json.
 	InfoOrdersWrite(InfoOrders)
 	
-	RakingOrders(InfoOrders)
 	# Вывод данных на главной странице.
 	return render(request, "main.html", context)
 
@@ -133,11 +132,11 @@ def PreOrderPage(request):
 					# Если id пиццы, которую нужно удалить такое же, и количество совпадает. 
 					if InfoOrders["Orders"][Order]["Pizzas"][i]["Id"] == int(request.POST["Id"]) and InfoOrders["Orders"][Order]["Pizzas"][i]["Count"] == int(request.POST["Count"]):
 						# Узнаем общую стоимость пиццы и сохраняем.
-						InfoOrders["Orders"][Order]["TotalPrice"] += round(InfoOrders["Orders"][Order]["TotalPrice"] - InfoOrders["Orders"][Order]["Pizzas"][i]["Price"]*float(request.POST["Count"]), 2)
+						InfoOrders["Orders"][Order]["TotalPrice"] = round(InfoOrders["Orders"][Order]["TotalPrice"] - InfoOrders["Orders"][Order]["Pizzas"][i]["Price"]*float(request.POST["Count"]), 2)
 						# Удаление ненужной пиццы.
 						del InfoOrders["Orders"][Order]["Pizzas"][i]
 						break
-					# # Если id пиццы, которую нужно удалить такое же.
+					# Если id пиццы, которую нужно удалить такое же.
 					elif InfoOrders["Orders"][Order]["Pizzas"][i]["Id"] == int(request.POST["Id"]):
 						# Меняем общую стоимость.
 						InfoOrders["Orders"][Order]["TotalPrice"] = round(InfoOrders["Orders"][Order]["TotalPrice"] - InfoOrders["Orders"][Order]["Pizzas"][i]["Price"]*float(request.POST["Count"]), 2)
@@ -167,9 +166,8 @@ def FormPage(request):
 				InfoOrders["Orders"][Order]["Datetime"] = str(datetime.datetime.now())
 				InfoOrders["Orders"][Order]["Id"] = InfoOrders["LastId"] + 1
 				InfoOrders["LastId"] += 1
-				InfoOrders["Queue"].append(InfoOrders["Orders"][Order])
-				InfoOrders["Orders"] = list()
 				InfoOrdersWrite(InfoOrders)
+				RakingOrders(InfoOrders)
 				return HttpResponseRedirect("/orders")  
 
 	return render(request, "form.html")
