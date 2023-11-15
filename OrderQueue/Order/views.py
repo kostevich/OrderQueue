@@ -166,8 +166,10 @@ def FormPage(request):
 				InfoOrders["Orders"][Order]["Datetime"] = str(datetime.datetime.now())
 				InfoOrders["Orders"][Order]["Id"] = InfoOrders["LastId"] + 1
 				InfoOrders["LastId"] += 1
+				InfoOrders["Queue"].append(InfoOrders["Orders"][Order])
+				InfoOrders["Orders"] = list()
 				InfoOrdersWrite(InfoOrders)
-				RakingOrders(InfoOrders)
+				OrderConfirmation(InfoOrders)
 				return HttpResponseRedirect("/orders")  
 
 	return render(request, "form.html")

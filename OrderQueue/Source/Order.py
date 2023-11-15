@@ -1,27 +1,26 @@
 from celery import Celery
 from .Functions import *
-from Order.models import Order
+import random
+import time
 
-app = Celery('myapp', broker='http://127.0.0.1:8000/')
 
+app = Celery('myapp', broker='')
+
+app.
 
 @app.task
-def RakingOrders(InfoOrders):
-   NamePizzas = list()
-   if len(InfoOrders["Orders"]) != 0:
-      for Orders in range(len(InfoOrders["Orders"])):
-         for i in range(len(InfoOrders["Orders"][Orders]["Pizzas"])):
-            NamePizzas.append({InfoOrders["Orders"][Orders]["Pizzas"][i]["Name"]:InfoOrders["Orders"][Orders]["Pizzas"][i]["Count"]})
-            print(NamePizzas)
-         Order.objects.create(
-            Time = str(InfoOrders["Orders"][Orders]["Datetime"]),
-            IdOrder = InfoOrders["Orders"][Orders]["Id"],
-            NameUser = str(InfoOrders["Orders"][Orders]["User"][0]["Name"]),
-            Adress = str(InfoOrders["Orders"][Orders]["User"][0]["Adress"]),
-            PhoneNumber = str(InfoOrders["Orders"][Orders]["User"][0]["PhoneNumber"]),
-            TotalPrice = InfoOrders["Orders"][Orders]["TotalPrice"],
-            NamePizza = NamePizzas,
-            Count = 3,
-         )
-   else: 
-      pass
+def OrderConfirmation(InfoOrders):
+   for Queue in range(len(InfoOrders['Queue'])):
+      if 'Confirmation' not in InfoOrders["Queue"][Queue].keys():
+         Confirmation = random.randint(1, 10)
+         if Confirmation < 9:
+            InfoOrders["Queue"][Queue]["Confirmation"] =  True
+         else: 
+            print(InfoOrders["Queue"][Queue])
+            del InfoOrders["Queue"][Queue]
+   WriteJSON('json/InfoOrders.json', InfoOrders)    
+
+            
+
+   
+         
