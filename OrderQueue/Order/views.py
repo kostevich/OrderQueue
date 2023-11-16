@@ -169,7 +169,7 @@ def FormPage(request):
 				InfoOrders["Queue"].append(InfoOrders["Orders"][Order])
 				InfoOrders["Orders"] = list()
 				InfoOrdersWrite(InfoOrders)
-				OrderConfirmation(InfoOrders)
+				result = OrderConfirmation.delay(InfoOrders)
 				return HttpResponseRedirect("/orders")  
 
 	return render(request, "form.html")
