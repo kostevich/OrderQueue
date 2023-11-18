@@ -1,13 +1,19 @@
 from celery import Celery
-from .Functions import *
-from .Broker import *
+from Source.Functions import *
+from Source.Broker import *
 
 import random
 import time
+import os
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cel.settings')
 
-app = Celery('myapp', broker=broker)
+app = Celery('cel', broker=broker)
 
+app.config_from_object('django.conf:settings', namespace='CELERY')
+
+# Load task modules from all registered Django apps.
+app.autodiscover_tasks()
 
 @app.task
 def OrderConfirmation(InfoOrders):

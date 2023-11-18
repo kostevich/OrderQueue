@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from Source.Functions import *
 from Source.Menu import *
-from Source.Order import *
+from cel.Order import *
 from django.http import HttpResponseRedirect
 
 import os
 import datetime
+
 
 # Путь к файлам формата json.
 path = "json"
