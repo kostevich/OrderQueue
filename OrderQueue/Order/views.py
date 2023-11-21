@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from Source.Functions import *
 from Source.Menu import *
-from cel.Order import *
+from Source.Order import *
 from django.http import HttpResponseRedirect
 
 import os
@@ -170,7 +170,8 @@ def FormPage(request):
 				InfoOrders["Queue"].append(InfoOrders["Orders"][Order])
 				InfoOrders["Orders"] = list()
 				InfoOrdersWrite(InfoOrders)
-				OrderConfirmation.delay(InfoOrders)
+				add = OrderConfirmation.delay(InfoOrders)
+				add.get(timeout = 1)
 				return HttpResponseRedirect("/orders")  
 
 	return render(request, "form.html")
