@@ -6,7 +6,7 @@ import random
 import time
 import os
 
-app = Celery('mysite', broker=broker)
+app = Celery('OrderQueue', broker=broker, backend='rpc://')
 
 @app.task
 def OrderConfirmation(InfoOrders):
@@ -14,7 +14,6 @@ def OrderConfirmation(InfoOrders):
       if 'Confirmation' not in InfoOrders["Queue"][Queue].keys():
          Confirmation = random.randint(1, 10)
          print(Confirmation)
-         time.sleep(12)
          if Confirmation < 9:
             InfoOrders["Queue"][Queue]["Confirmation"] = True
             if Confirmation<3:
@@ -25,8 +24,9 @@ def OrderConfirmation(InfoOrders):
                InfoOrders["Queue"][Queue]["Payment"] = "Оплата картой(на сайте)"
          else: 
             del InfoOrders["Queue"][Queue]
+      print('dsd')
       WriteJSON('json/InfoOrders.json', InfoOrders)  
-      print(InfoOrders)  
+      return InfoOrders  
 
             
 
