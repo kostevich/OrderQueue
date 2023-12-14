@@ -1,17 +1,29 @@
+
+#==========================================================================================#
+# >>>>> ПОДКЛЮЧЕНИЕ БИБЛИОТЕК И МОДУЛЕЙ <<<<< #
+#==========================================================================================#
+
 from bs4 import BeautifulSoup
 
+
 import requests 
+
+#==========================================================================================#
+# >>>>> ПОЛУЧЕНИЕ МЕНЮ С САЙТА DOMINOS <<<<< #
+#==========================================================================================#
 
 def ReceiveMenu():
     # Словарь со всей информацией по пиццам.
     InfoPizzas = {
         "Pizzas": []
     }
+
     # Начальное id пиццы.
     ID = 0
 
     # Ccылка на страницу с данными пицц.
     url = "https://dominos.by/pizza"
+
     # Запрос к сайту.
     Menu = requests.get(url)
 
@@ -26,11 +38,13 @@ def ReceiveMenu():
     for item in AllPizzas:
         # Смена ID.
         ID +=1
+
         # Вывод текстовых данных о пицце.
         allNames =  item.find('div', {'class': 'product-card__title'}).text.replace("new", "").replace("хит", "")
         allIngridients =  item.find('div', {'class': 'product-card__description'}).text
         allSizePizzas =  item.find('p', {'class': 'product-card__modification-info-weight'}).text.replace(" гр", "")
         allPricePizzas =  item.find('p', {'class': 'product-card__modification-info-price'}).text.replace(" руб.", "")
+
         # Запись данных в словарь.
         InfoPizzas["Pizzas"].append({'Id': ID, 'Name': allNames, 'Ingridients': allIngridients, 'Size': int(allSizePizzas), 'Price': float(allPricePizzas)})
 
@@ -38,8 +52,10 @@ def ReceiveMenu():
     for i in range(len(AllImages)):
         # Вывод изображений пиццы.
         allUrlImages = AllImages[i]["src"]
+
         # Обновление данных в словаре.
         InfoPizzas["Pizzas"][i]['Images'] = allUrlImages
+        
     return InfoPizzas
 
 

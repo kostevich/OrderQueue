@@ -1,13 +1,25 @@
 #!/usr/bin/env python
-"""Django's command-line utility for administrative tasks."""
+
+#==========================================================================================#
+# >>>>> ПОДКЛЮЧЕНИЕ БИБЛИОТЕК И МОДУЛЕЙ <<<<< #
+#==========================================================================================#
+
+from dublib.Methods import CheckPythonMinimalVersion
+
+
 import os
 import sys
 
+#==========================================================================================#
+# >>>>> ИНИЦИАЛИЗАЦИЯ СКРИПТА <<<<< #
+#==========================================================================================#
 
 def main():
-    """Run administrative tasks."""
+    # Проверка настроек
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'OrderQueue.settings')
+    # Проверка импорта Django.
     try:
+        # Удаление ненужных файлов json.
         os.remove('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoPizzas.json')
         os.remove('C:\Data storage\Programming\Internship\OrderQueue\OrderQueue\json\InfoOrders.json')
     except:
@@ -21,6 +33,8 @@ def main():
             "forget to activate a virtual environment?"
         ) from exc
     execute_from_command_line(sys.argv)
+    # Проверка поддержки используемой версии Python.
+    CheckPythonMinimalVersion(3, 11)
 
 
 if __name__ == '__main__':
