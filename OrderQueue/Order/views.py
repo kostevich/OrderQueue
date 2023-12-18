@@ -7,7 +7,6 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from Source.Functions import *
 from Source.Menu import *
-from Source.Order import *
 
 
 import os
@@ -17,7 +16,7 @@ import datetime
 # >>>>> ЧТЕНИЕ НАСТРОЕК <<<<< #
 #==========================================================================================#
 
-Settings = ReadJSON("Settings.json")
+Settings = ReadJSON("Source\Settings.json")
 
 #==========================================================================================#
 # >>>>> ГЛАВНАЯ СТРАНИЦА <<<<< #
@@ -64,7 +63,7 @@ def MainPage(request):
 		# Создаем словарь c данными с сайта.
 		InfoPizzas = ReceiveMenu()
 
-		 # Сохраняем его в виде файла InfoPizzas.json.
+		# Сохраняем его в виде файла InfoPizzas.json.
 		InfoPizzasWrite(InfoPizzas)
 		
 
@@ -205,10 +204,6 @@ def FormPage(request):
 				InfoOrders["Orders"] = list()
 
 				InfoOrdersWrite(InfoOrders)
-
-				add = OrderConfirmation.delay(InfoOrders)
-
-				add.get
 
 				return HttpResponseRedirect("/orders")  
 

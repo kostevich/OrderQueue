@@ -4,7 +4,6 @@
 #==========================================================================================#
 
 from celery import Celery
-from Source.Broker import *
 from Source.Functions import *
 
 
@@ -16,7 +15,10 @@ import time
 # >>>>> СОЗДАНИЕ ПРИЛОЖЕНИЯ CELERY  <<<<< #
 #==========================================================================================#
 
-app = Celery('OrderQueue', broker=broker, backend='rpc://')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "OrderQueue.settings")
+app = Celery("OrderQueue")
+app.config_from_object("django.conf:settings", namespace="CELERY")
+app.autodiscover_tasks()
 
 #==========================================================================================#
 # >>>>> TASK: ПОДТВЕРЖДЕНИЕ ЗАКАЗА  <<<<< #
