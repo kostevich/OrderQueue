@@ -3,17 +3,16 @@
 # >>>>> ПОДКЛЮЧЕНИЕ БИБЛИОТЕК И МОДУЛЕЙ <<<<< #
 #==========================================================================================#
 
-from django.urls import path
-from . import views
+from celery import Celery
+
+
+import os
 
 #==========================================================================================#
-# >>>>>  ЛОКАЛЬНЫЕ ССЫЛКИ ДЛЯ РАБОТЫ САЙТА <<<<< #
+# >>>>> СОЗДАНИЕ ПРИЛОЖЕНИЯ CELERY  <<<<< #
 #==========================================================================================#
 
-urlpatterns = [
-    path('', views.MainPage, name='MainPage'),
-    path('about/', views.AboutPage, name='AboutPage'),
-    path('preorder', views.PreOrderPage, name='PreOrderPage'),
-    path('form', views.FormPage, name='FormPage'),
-    path('orders', views.SendForm, name='SendForm'),
-]
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "OrderQueue.settings")
+app = Celery("OrderQueue")
+app.config_from_object("django.conf:settings", namespace="CELERY")
+app.autodiscover_tasks()

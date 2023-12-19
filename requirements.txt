@@ -1,5 +1,6 @@
 beautifulsoup4
 celery
 Django
+flower
 git+https://github.com/DUB1401/dublib
 requests

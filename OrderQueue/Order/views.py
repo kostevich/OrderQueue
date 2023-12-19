@@ -3,8 +3,10 @@
 # >>>>> ПОДКЛЮЧЕНИЕ БИБЛИОТЕК И МОДУЛЕЙ <<<<< #
 #==========================================================================================#
 
+from celery_pizzas.tasks import OrderConfirmation
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from Order.tasks import OrderConfirmation, pri
 from Source.Functions import *
 from Source.Menu import *
 
@@ -127,14 +129,15 @@ def MainPage(request):
 	InfoOrdersWrite(InfoOrders)
 	
 	# Вывод данных на главной странице.
-	return render(request, "main.html", context)
+	return render(request, "Main.html", context)
 
 #==========================================================================================#
 # >>>>> КОНТАКТНАЯ ИНФОРМАЦИЯ <<<<< #
 #==========================================================================================#
 
 def AboutPage(request):
-	return render(request, "about.html")
+	# pri.delay
+	return render(request, "About.html")
 
 #==========================================================================================#
 # >>>>> КОРЗИНА <<<<< #
@@ -204,7 +207,7 @@ def FormPage(request):
 				InfoOrders["Orders"] = list()
 
 				InfoOrdersWrite(InfoOrders)
-
+				OrderConfirmation.delay
 				return HttpResponseRedirect("/orders")  
 
 	return render(request, "form.html")

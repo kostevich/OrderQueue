@@ -39,3 +39,10 @@ def OrderConfirmation(InfoOrders):
     WriteJSON('json/InfoOrders.json', InfoOrders)  
 
     return InfoOrders  
+
+
+@shared_task
+def pri():
+    fp = open('sales_2.txt', 'w')
+    fp.write('first line')
+    fp.close()
