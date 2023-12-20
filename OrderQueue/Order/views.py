@@ -6,7 +6,6 @@
 from celery_pizzas.tasks import OrderConfirmation
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from Order.tasks import OrderConfirmation, pri
 from Source.Functions import *
 from Source.Menu import *
 
@@ -136,7 +135,6 @@ def MainPage(request):
 #==========================================================================================#
 
 def AboutPage(request):
-	# pri.delay
 	return render(request, "About.html")
 
 #==========================================================================================#
@@ -207,7 +205,7 @@ def FormPage(request):
 				InfoOrders["Orders"] = list()
 
 				InfoOrdersWrite(InfoOrders)
-				OrderConfirmation.delay
+				OrderConfirmation.delay(InfoOrders)
 				return HttpResponseRedirect("/orders")  
 
 	return render(request, "form.html")
