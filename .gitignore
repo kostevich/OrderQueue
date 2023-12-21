@@ -8,3 +8,4 @@ InfoPizzas.json
 db.sqlite3
 migrations
 OrderQueue/bot.session
+OrderQueue/anon.session
