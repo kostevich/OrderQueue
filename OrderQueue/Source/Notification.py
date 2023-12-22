@@ -4,13 +4,10 @@
 #==========================================================================================#
 
 from dublib.Methods import ReadJSON
+from telethon import functions
 from telethon import TelegramClient
 from telethon.tl.functions.contacts import ImportContactsRequest
 from telethon.tl.types import InputPhoneContact
-
-
-import asyncio
-import logging
 
 #==========================================================================================#
 # >>>>> ЧТЕНИЕ НАСТРОЕК <<<<< #
@@ -19,25 +16,31 @@ import logging
 Settings = ReadJSON("Source\Settings.json")
 
 #==========================================================================================#
-# >>>>> НАСТРОЙКА ТЕЛЕГРАММ КЛИЕНТА <<<<< #
+# >>>>> ОТПРАВКА УВЕДОМЛЕНИЙ <<<<< #
 #==========================================================================================#
 
+def TelegramNotifications():
 
-with TelegramClient('anon', Settings["api_id"], Settings["api_hash"]) as client:
-    client.loop.run_until_complete(client.send_message('me', '1!'))
+    #==========================================================================================#
+    # >>>>> НАСТРОЙКА ТЕЛЕГРАММ КЛИЕНТА <<<<< #
+    #==========================================================================================#
 
-
-# client = TelegramClient('bot', Settings["api_id"], Settings["api_hash"]).start(bot_token=Settings["token"])
-
-
-async def mavin():
-    entity1 = await client.get_entity('https://t.me/sleep_fox789')
-    await client.send_message(entity1, '2')
-    await client.send_message('+375295827818', 'Hello, friend!')
-    # contact = InputPhoneContact(client_id=0, phone="+375295827816", first_name="", last_name="")
-    # result = client(ImportContactsRequest([contact]))
-    # await client.send_message('+375295827816', 'Hello, friend1!')
-    
-with client:
-    client.loop.run_until_complete(mavin())
-
+    with TelegramClient('anon', Settings["api_id"], Settings["api_hash"]) as client:
+       
+        #==========================================================================================#
+        # >>>>> НАСТРОЙКА ТЕЛЕГРАММ КЛИЕНТА <<<<< #
+        #==========================================================================================#
+        async def mavin():
+            # Создание данных контакта.
+            contact = InputPhoneContact(client_id=0, phone='+37529*******', first_name="Уведомление", last_name="Отправлено")
+            # Добавление контакта.
+            contacts = await client(ImportContactsRequest([contact]))
+            # Отправка уведомления по номеру телефона.
+            await client.send_message('+37529*******', 'Hello, friend!')
+            # Удаление контакта.
+            await client(functions.contacts.DeleteContactsRequest([contacts.users[0]]))
+        
+        client.loop.run_until_complete(mavin())
+   
+TelegramNotifications()
+     
