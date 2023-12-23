@@ -19,28 +19,26 @@ Settings = ReadJSON("Source\Settings.json")
 # >>>>> ОТПРАВКА УВЕДОМЛЕНИЙ <<<<< #
 #==========================================================================================#
 
-def TelegramNotifications():
+async def SendMessage(phonenumber, textmessage):
+    # Настройка телеграмм-клиента.
+    async with TelegramClient('anon', Settings["api_id"], Settings["api_hash"]) as client:
+        # Аутентифицируемся.
+        await client.start()
 
-    #==========================================================================================#
-    # >>>>> НАСТРОЙКА ТЕЛЕГРАММ КЛИЕНТА <<<<< #
-    #==========================================================================================#
-
-    with TelegramClient('anon', Settings["api_id"], Settings["api_hash"]) as client:
-       
-        #==========================================================================================#
-        # >>>>> НАСТРОЙКА ТЕЛЕГРАММ КЛИЕНТА <<<<< #
-        #==========================================================================================#
-        async def mavin():
+        # Если заказчик наш контакт пробуем отправить по номеру телефона.
+        try:
+            # Отправка уведомления по номеру телефона.
+            await client.send_message(str(phonenumber), textmessage)
+        
+        except:
             # Создание данных контакта.
-            contact = InputPhoneContact(client_id=0, phone='+37529*******', first_name="Уведомление", last_name="Отправлено")
+            contact = InputPhoneContact(client_id=0, phone=phonenumber, first_name="Уведомление", last_name="Отправлено")
+            
             # Добавление контакта.
             contacts = await client(ImportContactsRequest([contact]))
+
             # Отправка уведомления по номеру телефона.
-            await client.send_message('+37529*******', 'Hello, friend!')
+            await client.send_message(phonenumber, textmessage)
+
             # Удаление контакта.
             await client(functions.contacts.DeleteContactsRequest([contacts.users[0]]))
-        
-        client.loop.run_until_complete(mavin())
-   
-TelegramNotifications()
-     

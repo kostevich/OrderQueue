@@ -8,6 +8,7 @@ from celery.utils.log import get_task_logger
 from Source.Functions import *
 from Source.Notification import *
 
+import asyncio
 import time
 import random
 
@@ -24,6 +25,7 @@ logger = get_task_logger(__name__)
 @shared_task
 def OrderConfirmation(InfoOrders):
     logger.info('Подтверждение заказа')
+
     for Queue in range(len(InfoOrders['Queue'])):
         # Если нет поля подтверждения заказа.
         if 'Confirmation' not in InfoOrders["Queue"][Queue].keys():
@@ -31,10 +33,28 @@ def OrderConfirmation(InfoOrders):
 
             # Создание одобрения подтверждения заказа.
             if Confirmation < 9:
+                
+                # Добавляем в json формат данные о подтверждении заказа.
                 InfoOrders["Queue"][Queue]["Confirmation"] = True
+
+                # Добавляем в json формат данные о статусе заказа.            
                 InfoOrders["Queue"][Queue]["Status"] = "Заказ готовится"
+
+                # Логгирование.
                 logger.info('Заказ подтверждён')
 
+                # Номер телефона заказчика.
+                phonenumber = (InfoOrders["Queue"][Queue]["User"][0]["PhoneNumber"])
+
+                # Текст уведомлени для заказчика.
+                textmessage = "Ваш заказ готовиться: ссылка для трекинга."
+
+                # Уведомление о начале готовки.
+                asyncio.run(SendMessage(str(phonenumber), textmessage))
+
+                # Логгирование.
+                logger.info('Уведомление о готовке заказа отправлено.')
+                
                 # Создание поля способа оплаты заказа.
                 if Confirmation<3:
                     InfoOrders["Queue"][Queue]["Payment"] = "Оплата картой(курьеру)"
@@ -44,26 +64,17 @@ def OrderConfirmation(InfoOrders):
 
                 else:
                     InfoOrders["Queue"][Queue]["Payment"] = "Оплата картой(на сайте)"
+
             # Удалить из заказов.
             else: 
                 del InfoOrders["Queue"][Queue]
+
+                # Логгирование.
                 logger.info('Заказ удалён')
-    Notifications.delay()
+                
     # Запись в json формат.
-    WriteJSON('json/InfoOrders.json', InfoOrders)
-    return InfoOrders  
-
-#==========================================================================================#
-# >>>>> TASK: оТПРАВКА УВЕДОМЛЕНИЙ  <<<<< #
-#==========================================================================================#
-
-@shared_task
-def Notifications():
-    logger.info('Отправка уведомления')
-    # sleeptime = random.randint(1, 60)
-    # time.sleep(sleeptime)
-    TelegramNotifications()
-
+    InfoOrdersWrite(InfoOrders)
+     
 
 
     
